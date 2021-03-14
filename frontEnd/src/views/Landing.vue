@@ -275,7 +275,7 @@ export default {
     this.name = "ming"
     axios({
         method: "get",
-        url: "http://localhost:3000/users/artileList"
+        url: "https://apiblog.iming.info/users/artileList"
     }).then((resp) => {
         console.log(resp.data)
         this.articleList = resp.data;

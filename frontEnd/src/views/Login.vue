@@ -87,7 +87,7 @@ export default {
         "userPassword": this.userPassword
       }
       axios({
-        url: "http://localhost:3000/users/userLogin",
+        url: "https://apiblog.iming.info/users/userLogin",
         method: "post",
         data: data
       }).then((res) => {

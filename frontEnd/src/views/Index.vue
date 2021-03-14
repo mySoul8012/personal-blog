@@ -117,7 +117,7 @@ export default {
     let that = this;
     axios({
         method: "get",
-        url: "http://localhost:3000/users/findArticleDetails?id=" + that.$route.query.id
+        url: "https://apiblog.iming.info/users/findArticleDetails?id=" + that.$route.query.id
     }).then((resp) => {
         console.log(resp.data[0])
         that.author = resp.data[0].author;

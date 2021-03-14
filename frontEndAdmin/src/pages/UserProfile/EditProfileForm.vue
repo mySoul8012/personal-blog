@@ -74,7 +74,7 @@ export default {
       console.log(data);
       axios({
         method: "post",
-        url: "http://localhost:3000/admin/addArticle",
+        url: "https://apiblog.iming.info/admin/addArticle",
         headers: {
           "Authorization": "Bearer " + localStorage.token
         },

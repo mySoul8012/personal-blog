@@ -96,7 +96,7 @@ export default {
       console.log(data);
       axios({
         method: "post",
-        url: "http://localhost:3000/admin/updateIdArticle",
+        url: "https://apiblog.iming.info/admin/updateIdArticle",
         headers: {
           "Authorization": "Bearer " + localStorage.token
         },
@@ -113,7 +113,7 @@ export default {
     let that = this;
     axios({
         method: "get",
-        url: "http://localhost:3000/admin/userArticleList",
+        url: "https://apiblog.iming.info/admin/userArticleList",
         headers: {
           "Authorization": "Bearer " + localStorage.token
         }
