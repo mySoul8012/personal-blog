@@ -1,6 +1,6 @@
 let adminModel = require("../model/admins.js");
 
-function findArticelDetails(userName, userPassword){
+function userLogin(userName, userPassword){
 	return new Promise(function(resolve, reject){
 		adminModel.find({userName: userName}, (err, docs) => {
 			if(err){
@@ -16,4 +16,4 @@ function findArticelDetails(userName, userPassword){
 	})
 }
 
-module.exports = findArticelDetails
+module.exports = userLogin

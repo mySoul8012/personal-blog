@@ -2,10 +2,10 @@
   <div>
     <md-table v-model="users" :table-header-color="tableHeaderColor" v-if="flag">
       <md-table-row slot="md-table-row" slot-scope="{ item }"  v-on:click="mdTableRow({item})">
-        <md-table-cell md-label="id">{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="id">{{ item._id }}</md-table-cell>
         <md-table-cell md-label="文章标题">{{ item.title }}</md-table-cell>
         <md-table-cell md-label="文章标签">{{ item.label }}</md-table-cell>
-        <md-table-cell md-label="文章发布时间">{{ item.titme }}</md-table-cell>
+        <md-table-cell md-label="文章发布时间">{{ item.time }}</md-table-cell>
       </md-table-row>
     </md-table>
 
@@ -31,7 +31,7 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-success">Update</md-button>
+            <md-button v-on:click="submit()" class="md-raised md-success">Update</md-button>
           </div>
         </div>
       </md-card-content>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: "simple-table",
   props: {
@@ -49,6 +50,8 @@ export default {
   },
   data() {
     return {
+      author: "",
+      id: "",
       title: "",
       label: "",
       content: "",
@@ -73,10 +76,51 @@ export default {
   },
   methods: {
     mdTableRow: async function(test){
-      console.log(test)
+      console.log(test.item)
       this.flag = false;
       this.flagCardContent = true;
+      this.id = test.item._id;
+      this.title = test.item.title;
+      this.label = test.item.label;
+      this.content = test.item.content;
+      this.author = test.item.author;
+    },
+    submit: async function(){
+      let data = {
+        "id": this.id,
+        "title": this.title,
+        "content": this.content,
+        "label": this.label,
+        "author": this.author
+      }
+      console.log(data);
+      axios({
+        method: "post",
+        url: "http://localhost:3000/admin/updateIdArticle",
+        headers: {
+          "Authorization": "Bearer " + localStorage.token
+        },
+        data: data
+      }).then((resp) => {
+        console.log(resp.data)
+        this.users = resp.data;
+        alert("修改成功")
+
+      })
     }
+  },
+  created: function(){
+    let that = this;
+    axios({
+        method: "get",
+        url: "http://localhost:3000/admin/userArticleList",
+        headers: {
+          "Authorization": "Bearer " + localStorage.token
+        }
+    }).then((resp) => {
+        console.log(resp.data)
+        this.users = resp.data;
+    })
   }
 };
 </script>

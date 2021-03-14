@@ -9,8 +9,8 @@
             <img :src="leaf2" alt="leaf2" class="leaf2" v-show="leafShow" />
             <img :src="leaf1" alt="leaf1" class="leaf1" v-show="leafShow" />
             <div class="brand">
-              <h1>Title</h1>
-              <h3>subTitle</h3>
+              <h1>{{title}}</h1>
+              <h3>{{author}}</h3>
             </div>
           </div>
         </div>
@@ -20,7 +20,7 @@
       
       <div class="section">
         <div class="container">
-          <typography-images></typography-images>
+          <typography-images v-bind:content="content"></typography-images>
         </div>
       </div>
       
@@ -32,7 +32,7 @@
 
 <script>
 import TypographyImages from "./components/TypographyImagesSection";
-
+import axios from 'axios'
 export default {
   components: {
     TypographyImages,
@@ -75,10 +75,14 @@ export default {
   },
   data() {
     return {
-      firstname: null,
-      email: null,
-      password: null,
-      leafShow: false
+      author: "",
+      content: "",
+      frequency: "",
+      label: "",
+      likes: "",
+      time: "",
+      title: "",
+      _id: ""
     };
   },
   methods: {
@@ -108,6 +112,23 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener("resize", this.leafActive);
+  },
+  created: function(){
+    let that = this;
+    axios({
+        method: "get",
+        url: "http://localhost:3000/users/findArticleDetails?id=" + that.$route.query.id
+    }).then((resp) => {
+        console.log(resp.data[0])
+        that.author = resp.data[0].author;
+        that.content = resp.data[0].content;
+        that.flag = resp.data[0].flag;
+        that.frequency = resp.data[0].frequency;
+        that.label = resp.data[0].label;
+        that.likes = resp.data[0].likes;
+        that.time = resp.data[0].time;
+        that.title = resp.data[0].title;
+    })
   }
 };
 </script>

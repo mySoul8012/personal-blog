@@ -13,6 +13,15 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
+    beforeEnter: (to, from, next) => {
+        if(localStorage.token){
+          next();
+        }else{
+          next({
+                  path: '/login'
+          })
+        }
+      },
     redirect: "/dashboard",
     children: [
       {
@@ -61,5 +70,6 @@ const routes = [
     ]
   }
 ];
+
 
 export default routes;

@@ -28,10 +28,11 @@
       <div class="section">
         <div class="container">
           <div class="md-layout">
-            <div>
-                <a href="/">
-                    <h2>Hello Title</h2>
-                    <p>Hello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello WorldHello World</p>
+            <div v-for="item in articleList" style="width:100%">
+                <a :href="'#/article?id=' + item._id ">
+                    <h1>{{item.title}}</h1>
+                    <h3>作者：{{item.author}}</h3>
+                    <p>{{item.content}}</p>
                 </a>
             </div>
           </div>
@@ -234,6 +235,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   bodyClass: "landing-page",
   props: {
@@ -258,7 +260,8 @@ export default {
     return {
       name: null,
       email: null,
-      message: null
+      message: null,
+      articleList: []
     };
   },
   computed: {
@@ -267,6 +270,16 @@ export default {
         backgroundImage: `url(${this.header})`
       };
     }
+  },
+  created: function(){
+    this.name = "ming"
+    axios({
+        method: "get",
+        url: "http://localhost:3000/users/artileList"
+    }).then((resp) => {
+        console.log(resp.data)
+        this.articleList = resp.data;
+    })
   }
 };
 </script>

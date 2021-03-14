@@ -28,7 +28,7 @@
             </md-field>
           </div>
           <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-success">Add article</md-button>
+            <md-button v-on:click="submit()" class="md-raised md-success">Add article</md-button>
           </div>
         </div>
       </md-card-content>
@@ -36,6 +36,7 @@
   </form>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: "edit-profile-form",
   props: {
@@ -46,6 +47,9 @@ export default {
   },
   data() {
     return {
+      title: "",
+      label: "",
+      content: "",
       username: null,
       disabled: null,
       emailadress: null,
@@ -58,6 +62,29 @@ export default {
       aboutme:
         "My story is......"
     };
+  },
+  methods: {
+    submit: async function(){
+      let data = {
+        "title": this.title,
+        "content": this.content,
+        "label": this.label,
+        "author": "小小"
+      }
+      console.log(data);
+      axios({
+        method: "post",
+        url: "http://localhost:3000/admin/addArticle",
+        headers: {
+          "Authorization": "Bearer " + localStorage.token
+        },
+        data: data
+      }).then((resp) => {
+        console.log(resp.data)
+        alert("增加成功")
+
+      })
+    }
   }
 };
 </script>

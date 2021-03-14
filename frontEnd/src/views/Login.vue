@@ -29,23 +29,19 @@
               >
                 <i class="fab fa-google-plus-g"></i>
               </md-button>
+
               <p slot="description" class="description">Or Be Classical</p>
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>face</md-icon>
-                <label>First Name...</label>
-                <md-input v-model="firstname"></md-input>
-              </md-field>
-              <md-field class="md-form-group" slot="inputs">
-                <md-icon>email</md-icon>
-                <label>Email...</label>
-                <md-input v-model="email" type="email"></md-input>
+                <label>userName...</label>
+                <md-input v-model="userName"></md-input>
               </md-field>
               <md-field class="md-form-group" slot="inputs">
                 <md-icon>lock_outline</md-icon>
-                <label>Password...</label>
-                <md-input v-model="password"></md-input>
+                <label>userPassword...</label>
+                <md-input v-model="userPassword"></md-input>
               </md-field>
-              <md-button slot="footer" class="md-simple md-success md-lg">
+              <md-button v-on:click="login" slot="footer" class="md-simple md-success md-lg">
                 Get Started
               </md-button>
             </login-card>
@@ -58,6 +54,7 @@
 
 <script>
 import { LoginCard } from "@/components";
+import axios from 'axios'
 
 export default {
   components: {
@@ -66,9 +63,8 @@ export default {
   bodyClass: "login-page",
   data() {
     return {
-      firstname: null,
-      email: null,
-      password: null
+      userName: null,
+      userPassword: null
     };
   },
   props: {
@@ -82,6 +78,23 @@ export default {
       return {
         backgroundImage: `url(${this.header})`
       };
+    }
+  },
+  methods: {
+    login: function(event) {
+      let data = {
+        "userName": this.userName,
+        "userPassword": this.userPassword
+      }
+      axios({
+        url: "http://localhost:3000/users/userLogin",
+        method: "post",
+        data: data
+      }).then((res) => {
+        console.log(res.data.data.token);
+        localStorage.token = res.data.data.token
+        window.location.href = "/admin/"
+      })
     }
   }
 };

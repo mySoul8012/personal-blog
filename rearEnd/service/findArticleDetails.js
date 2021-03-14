@@ -1,7 +1,7 @@
 let articleModel = require("../model/articles.js");
 
 
-function findArticelDetails(id){
+function findArticleDetails(id){
 	return new Promise(function(resolve, reject){
 		articleModel.find({"_id": id}, (err, docs) => {
 			if(err){
@@ -13,4 +13,4 @@ function findArticelDetails(id){
 	})
 }
 
-module.exports = findArticelDetails;
+module.exports = findArticleDetails;
